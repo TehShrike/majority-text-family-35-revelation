@@ -1,0 +1,30 @@
+{
+  "name": "majority-text-family-35-revelation",
+  "version": "1.0.0",
+  "description": "Machine-readable greek of the book of Revelation, from the family 35 majority text",
+  "main": "revelation.json",
+  "scripts": {
+    "test": "echo \"no tests...\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TehShrike/majority-text-family-35-revelation.git"
+  },
+  "keywords": [
+    "bible",
+    "revelation",
+    "greek"
+  ],
+  "author": "TehShrike",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/TehShrike/majority-text-family-35-revelation/issues"
+  },
+  "homepage": "https://github.com/TehShrike/majority-text-family-35-revelation#readme",
+  "devDependencies": {
+    "cheerio": "0.22.0",
+    "fs": "0.0.1-security",
+    "then-denodeify": "1.0.1",
+    "walkdir": "0.0.11"
+  }
+}

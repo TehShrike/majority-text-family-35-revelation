@@ -27,6 +27,7 @@ function process(basic) {
 			currentSection = 1
 		} else if (chunk.type === 'verse') {
 			output.push({
+				type: 'verse',
 				chapterNumber: currentChapter,
 				verseNumber: currentVerse,
 				sectionNumber: currentSection,
@@ -40,7 +41,7 @@ function process(basic) {
 		}
 	})
 
-	return output
+	return flatMap(output, splitVerseIfNecessary)
 }
 
 function concatenateVerseChunks(basic) {
@@ -129,8 +130,8 @@ function write(file, data) {
 function splitVerseIfNecessary(verse) {
 	if (verse.chapterNumber === 12 && verse.verseNumber === 17) {
 		return chunk(verse, [
-			'So the dragon was furious about the woman and off he went to make war with the rest of her offspring,',
-			'those who keep the commands of God and hold the testimony of Jesus.'
+			'Καὶὠργίσθη ὁ δράκων ἐπὶ τῇ γυναικί καὶ ἀπῆλθεν ποιῆσαι πόλεµον µετὰ τῶνλοιπῶν τοῦ σπέρµατος αὐτῆς, ',
+			'τῶν τηρούντων τὰς ἐντολὰς τοῦ Θεοῦ καὶἐχόντων τὴν µαρτυρίαν Ἰησοῦ.'
 		])
 	} else {
 		return verse
@@ -138,38 +139,12 @@ function splitVerseIfNecessary(verse) {
 }
 
 function chunk(verse, chunks) {
-	return chunks.map(text => Object.assign({}, verse, { text }))
-}
+	return chunks.reduce((array, text) => {
+		const chunk = Object.assign({}, verse, {
+			text,
+			sectionNumber: verse.sectionNumber + array.length
+		})
 
-function addVerseSectionNumbers(verses) {
-	let lastVerseNumber = 0
-	let sectionNumber = 0
-
-	return verses.map(chunk => {
-		if (chunk.type !== 'verse') {
-			return chunk
-		}
-
-		if (chunk.verseNumber !== lastVerseNumber) {
-			sectionNumber = 0
-		}
-		sectionNumber++
-		lastVerseNumber = chunk.verseNumber
-		return Object.assign({}, chunk, { sectionNumber })
-	})
-}
-
-function joinVerseChunks(strings) {
-	return strings.reduce((sentence, string) => {
-		const startsWithPunctuation = /^[\.,]/.test(string)
-		const endsWithDash = /[-—]$/.test(sentence)
-
-		const needsLeadingSpace = sentence.length > 0
-			&& !startsWithPunctuation
-			&& !endsWithDash
-
-		const addition = needsLeadingSpace ? (' ' + string) : string
-
-		return sentence + addition
-	})
+		return [ ...array, chunk ]
+	}, [])
 }

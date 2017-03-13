@@ -1,6 +1,6 @@
 {
   "name": "majority-text-family-35-revelation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Machine-readable greek of the book of Revelation, from the family 35 majority text",
   "main": "revelation.json",
   "scripts": {
